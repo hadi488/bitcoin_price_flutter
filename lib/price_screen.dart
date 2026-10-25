@@ -12,21 +12,47 @@ class PriceScreen extends StatefulWidget {
 }
 
 class _PriceScreenState extends State<PriceScreen> {
+  CoinData coindata = CoinData();
   String? selectedCurrency = 'USD';
   double bitcoinRate = 0.0;
+  double ethereumRate = 0.0;
+  double litecoinRate = 0.0;
   void updateCurrency(String value) {
     setState(() {
       selectedCurrency = value;
     });
-    getData(value);
+    getBTCData(value);
+    getEThData(value);
+    getLTCData(value);
   }
 
-  void getData(String selectedCurrency) async {
+  void getBTCData(String selectedCurrency) async {
     try {
-      CoinData coinData = CoinData();
-      String rate = await coinData.getCoinData(selectedCurrency);
+      String BTCrate = await coindata.getBTCCoinData(selectedCurrency);
       setState(() {
-        bitcoinRate = double.parse(rate);
+        bitcoinRate = double.parse(BTCrate);
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void getEThData(String selectedCurrency) async {
+    try {
+      String ETHrate = await coindata.getETHCoinData(selectedCurrency);
+      setState(() {
+        ethereumRate = double.parse(ETHrate);
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void getLTCData(String selectedCurrency) async {
+    try {
+      String LTCrate = await coindata.getLTCCoinData(selectedCurrency);
+      setState(() {
+        litecoinRate = double.parse(LTCrate);
       });
     } catch (e) {
       print(e);
@@ -114,7 +140,7 @@ class _PriceScreenState extends State<PriceScreen> {
                       horizontal: 28.0,
                     ),
                     child: Text(
-                      '1 ETH = ${bitcoinRate} $selectedCurrency',
+                      '1 ETH = ${ethereumRate} $selectedCurrency',
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 20.0, color: Colors.white),
                     ),
@@ -135,7 +161,7 @@ class _PriceScreenState extends State<PriceScreen> {
                       horizontal: 28.0,
                     ),
                     child: Text(
-                      '1 LTC = ${bitcoinRate} $selectedCurrency',
+                      '1 LTC = ${litecoinRate} $selectedCurrency',
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 20.0, color: Colors.white),
                     ),
