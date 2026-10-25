@@ -1,9 +1,10 @@
 import 'dart:io' show Platform;
 
+import 'package:bitcoin_ticker/coin_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'coin_data.dart';
+import 'constants.dart';
 
 class PriceScreen extends StatefulWidget {
   @override
@@ -12,9 +13,21 @@ class PriceScreen extends StatefulWidget {
 
 class _PriceScreenState extends State<PriceScreen> {
   String? selectedCurrency = 'USD';
+  double bitcoinRate = 0.0;
   void updateCurrency(String value) {
     setState(() {
       selectedCurrency = value;
+    });
+    getData(value);
+  }
+
+  void getData(String selectedCurrency) async {
+    CoinData coinData = CoinData();
+    double rate = await coinData.getCoinData(selectedCurrency);
+    String bitcoinValueInString = rate.toStringAsFixed(2);
+    double bitcoinRateIndouble = double.parse(bitcoinValueInString);
+    setState(() {
+      bitcoinRate = bitcoinRateIndouble;
     });
   }
 
@@ -71,7 +84,7 @@ class _PriceScreenState extends State<PriceScreen> {
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
                 child: Text(
-                  '1 BTC = ? USD',
+                  '1 BTC = ${bitcoinRate} $selectedCurrency',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 20.0, color: Colors.white),
                 ),
