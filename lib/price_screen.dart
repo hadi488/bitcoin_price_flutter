@@ -40,9 +40,18 @@ class _PriceScreenState extends State<PriceScreen> {
     required String cryptoCurCode,
   }) async {
     try {
-      String BTCrate = await coindata.getBTCCoinData(selectedCurrency);
-      String ETHrate = await coindata.getETHCoinData(selectedCurrency);
-      String LTCrate = await coindata.getLTCCoinData(selectedCurrency);
+      String BTCrate = await coindata.getCoinData(
+        selectedCurr: selectedCurrency,
+        cryptoCurrencyCode: cryptoCurCode,
+      );
+      String ETHrate = await coindata.getCoinData(
+        selectedCurr: selectedCurrency,
+        cryptoCurrencyCode: cryptoCurCode,
+      );
+      String LTCrate = await coindata.getCoinData(
+        selectedCurr: selectedCurrency,
+        cryptoCurrencyCode: cryptoCurCode,
+      );
       setState(() {
         ethereumRate = double.parse(ETHrate);
         litecoinRate = double.parse(LTCrate);
