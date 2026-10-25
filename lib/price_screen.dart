@@ -22,13 +22,15 @@ class _PriceScreenState extends State<PriceScreen> {
   }
 
   void getData(String selectedCurrency) async {
-    CoinData coinData = CoinData();
-    double rate = await coinData.getCoinData(selectedCurrency);
-    String bitcoinValueInString = rate.toStringAsFixed(2);
-    double bitcoinRateIndouble = double.parse(bitcoinValueInString);
-    setState(() {
-      bitcoinRate = bitcoinRateIndouble;
-    });
+    try {
+      CoinData coinData = CoinData();
+      String rate = await coinData.getCoinData(selectedCurrency);
+      setState(() {
+        bitcoinRate = double.parse(rate);
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   DropdownButton<String> getAndroidDropdownButton() {
