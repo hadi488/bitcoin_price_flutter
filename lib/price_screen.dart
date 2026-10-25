@@ -17,42 +17,36 @@ class _PriceScreenState extends State<PriceScreen> {
   double bitcoinRate = 0.0;
   double ethereumRate = 0.0;
   double litecoinRate = 0.0;
-  void updateCurrency(String value) {
+  void updateCurrency(String selectedCurrencyName) {
     setState(() {
-      selectedCurrency = value;
+      selectedCurrency = selectedCurrencyName;
     });
-    getBTCData(value);
-    getEThData(value);
-    getLTCData(value);
+    getCoinData(
+      selectedCurrency: selectedCurrencyName,
+      cryptoCurCode: "btc-bitcoin",
+    );
+    getCoinData(
+      selectedCurrency: selectedCurrencyName,
+      cryptoCurCode: "eth-ethereum",
+    );
+    getCoinData(
+      selectedCurrency: selectedCurrencyName,
+      cryptoCurCode: "ltc-litecoin",
+    );
   }
 
-  void getBTCData(String selectedCurrency) async {
+  void getCoinData({
+    required String selectedCurrency,
+    required String cryptoCurCode,
+  }) async {
     try {
       String BTCrate = await coindata.getBTCCoinData(selectedCurrency);
-      setState(() {
-        bitcoinRate = double.parse(BTCrate);
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  void getEThData(String selectedCurrency) async {
-    try {
       String ETHrate = await coindata.getETHCoinData(selectedCurrency);
-      setState(() {
-        ethereumRate = double.parse(ETHrate);
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  void getLTCData(String selectedCurrency) async {
-    try {
       String LTCrate = await coindata.getLTCCoinData(selectedCurrency);
       setState(() {
+        ethereumRate = double.parse(ETHrate);
         litecoinRate = double.parse(LTCrate);
+        bitcoinRate = double.parse(BTCrate);
       });
     } catch (e) {
       print(e);
