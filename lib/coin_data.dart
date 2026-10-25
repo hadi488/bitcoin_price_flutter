@@ -8,7 +8,11 @@ class CoinData {
     required String selectedCurr,
     required String cryptoCurrencyCode,
   }) async {
-    String requestURL = '$coinAPIURL $cryptoCurrencyCode ?quotes=$selectedCurr';
+    print("selectedCurr: $selectedCurr");
+    print("cryptoCurrencyCode: $cryptoCurrencyCode");
+    String requestURL =
+        '${coinAPIURL}${cryptoCurrencyCode}?quotes=$selectedCurr';
+    print("requestURL: $requestURL");
     try {
       http.Response response = await http.get(Uri.parse(requestURL));
       if (response.statusCode == 200) {

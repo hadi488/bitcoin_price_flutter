@@ -22,35 +22,37 @@ class _PriceScreenState extends State<PriceScreen> {
       selectedCurrency = selectedCurrencyName;
     });
     getCoinData(
-      selectedCurrency: selectedCurrencyName,
+      selectedCur: selectedCurrencyName,
       cryptoCurCode: "btc-bitcoin",
     );
     getCoinData(
-      selectedCurrency: selectedCurrencyName,
+      selectedCur: selectedCurrencyName,
       cryptoCurCode: "eth-ethereum",
     );
     getCoinData(
-      selectedCurrency: selectedCurrencyName,
+      selectedCur: selectedCurrencyName,
       cryptoCurCode: "ltc-litecoin",
     );
   }
 
   void getCoinData({
-    required String selectedCurrency,
+    required String selectedCur,
     required String cryptoCurCode,
   }) async {
     try {
+      print("selectedCur: $selectedCur");
+      print("cryptoCurCode: $cryptoCurCode");
       String BTCrate = await coindata.getCoinData(
-        selectedCurr: selectedCurrency,
-        cryptoCurrencyCode: cryptoCurCode,
+        selectedCurr: selectedCur,
+        cryptoCurrencyCode: "btc-bitcoin",
       );
       String ETHrate = await coindata.getCoinData(
-        selectedCurr: selectedCurrency,
-        cryptoCurrencyCode: cryptoCurCode,
+        selectedCurr: selectedCur,
+        cryptoCurrencyCode: "eth-ethereum",
       );
       String LTCrate = await coindata.getCoinData(
-        selectedCurr: selectedCurrency,
-        cryptoCurrencyCode: cryptoCurCode,
+        selectedCurr: selectedCur,
+        cryptoCurrencyCode: "ltc-litecoin",
       );
       setState(() {
         ethereumRate = double.parse(ETHrate);
