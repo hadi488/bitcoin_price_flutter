@@ -13,7 +13,7 @@ class PriceScreen extends StatefulWidget {
 
 class _PriceScreenState extends State<PriceScreen> {
   CoinData coindata = CoinData();
-  String? selectedCurrency = 'USD';
+  String selectedCurrency = 'USD';
   double bitcoinRate = 0.0;
   double ethereumRate = 0.0;
   double litecoinRate = 0.0;
@@ -105,68 +105,20 @@ class _PriceScreenState extends State<PriceScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
-                child: Card(
-                  color: Colors.lightBlueAccent,
-                  elevation: 5.0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 15.0,
-                      horizontal: 28.0,
-                    ),
-                    child: Text(
-                      '1 BTC = ${bitcoinRate} $selectedCurrency',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 20.0, color: Colors.white),
-                    ),
-                  ),
-                ),
+              CryptoCard(
+                cryptoCurrency: "BTC",
+                selectedCurrency: selectedCurrency,
+                coinRate: bitcoinRate,
               ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
-                child: Card(
-                  color: Colors.lightBlueAccent,
-                  elevation: 5.0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 15.0,
-                      horizontal: 28.0,
-                    ),
-                    child: Text(
-                      '1 ETH = ${ethereumRate} $selectedCurrency',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 20.0, color: Colors.white),
-                    ),
-                  ),
-                ),
+              CryptoCard(
+                cryptoCurrency: "ETH",
+                selectedCurrency: selectedCurrency,
+                coinRate: ethereumRate,
               ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
-                child: Card(
-                  color: Colors.lightBlueAccent,
-                  elevation: 5.0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 15.0,
-                      horizontal: 28.0,
-                    ),
-                    child: Text(
-                      '1 LTC = ${litecoinRate} $selectedCurrency',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 20.0, color: Colors.white),
-                    ),
-                  ),
-                ),
+              CryptoCard(
+                cryptoCurrency: "LTC",
+                selectedCurrency: selectedCurrency,
+                coinRate: litecoinRate,
               ),
             ],
           ),
@@ -178,6 +130,38 @@ class _PriceScreenState extends State<PriceScreen> {
             child: Platform.isIOS ? getIosPicker() : getAndroidDropdownButton(),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class CryptoCard extends StatelessWidget {
+  final String cryptoCurrency;
+  final String selectedCurrency;
+  final double coinRate;
+  CryptoCard({
+    required this.cryptoCurrency,
+    required this.selectedCurrency,
+    required this.coinRate,
+  });
+
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
+      child: Card(
+        color: Colors.lightBlueAccent,
+        elevation: 5.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
+          child: Text(
+            '1 $cryptoCurrency = ${coinRate} $selectedCurrency',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 20.0, color: Colors.white),
+          ),
+        ),
       ),
     );
   }
