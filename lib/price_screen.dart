@@ -1,10 +1,9 @@
 import 'dart:io' show Platform;
 
 import 'package:bitcoin_ticker/coin_data.dart';
+import 'package:bitcoin_ticker/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'constants.dart';
 
 class PriceScreen extends StatefulWidget {
   @override
@@ -14,50 +13,27 @@ class PriceScreen extends StatefulWidget {
 class _PriceScreenState extends State<PriceScreen> {
   CoinData coindata = CoinData();
   String selectedCurrency = 'USD';
-  double bitcoinRate = 0.0;
-  double ethereumRate = 0.0;
-  double litecoinRate = 0.0;
+  List<Map<String, dynamic>> coinPriceList = [
+    {"id": "btc-bitcoin", "price": 0.0},
+    {"id": "eth-ethereum", "price": 0.0},
+    {"id": "ltc-litecoin", "price": 0.0},
+  ];
   void updateCurrency(String selectedCurrencyName) {
     setState(() {
       selectedCurrency = selectedCurrencyName;
     });
-    getCoinData(
-      selectedCur: selectedCurrencyName,
-      cryptoCurCode: "btc-bitcoin",
-    );
-    getCoinData(
-      selectedCur: selectedCurrencyName,
-      cryptoCurCode: "eth-ethereum",
-    );
-    getCoinData(
-      selectedCur: selectedCurrencyName,
-      cryptoCurCode: "ltc-litecoin",
-    );
+    getCoinData(selectedCur: selectedCurrencyName);
   }
 
-  void getCoinData({
-    required String selectedCur,
-    required String cryptoCurCode,
-  }) async {
+  void getCoinData({required String selectedCur}) async {
     try {
-      print("selectedCur: $selectedCur");
-      print("cryptoCurCode: $cryptoCurCode");
-      String BTCrate = await coindata.getCoinData(
+      List<Map<String, dynamic>> coinrates = await coindata.getCoinData(
         selectedCurr: selectedCur,
-        cryptoCurrencyCode: "btc-bitcoin",
-      );
-      String ETHrate = await coindata.getCoinData(
-        selectedCurr: selectedCur,
-        cryptoCurrencyCode: "eth-ethereum",
-      );
-      String LTCrate = await coindata.getCoinData(
-        selectedCurr: selectedCur,
-        cryptoCurrencyCode: "ltc-litecoin",
       );
       setState(() {
-        ethereumRate = double.parse(ETHrate);
-        litecoinRate = double.parse(LTCrate);
-        bitcoinRate = double.parse(BTCrate);
+        coinPriceList = coinrates.map<Map<String, dynamic>>((coin) {
+          return {"id": coin['id'], "price": double.parse(coin['price'])};
+        }).toList();
       });
     } catch (e) {
       print(e);
@@ -111,19 +87,19 @@ class _PriceScreenState extends State<PriceScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               CryptoCard(
-                cryptoCurrency: "BTC",
+                cryptoCurrency: cryptoList[0].keys.first,
                 selectedCurrency: selectedCurrency,
-                coinRate: bitcoinRate,
+                coinRate: coinPriceList[0]["price"],
               ),
               CryptoCard(
-                cryptoCurrency: "ETH",
+                cryptoCurrency: cryptoList[1].keys.first,
                 selectedCurrency: selectedCurrency,
-                coinRate: ethereumRate,
+                coinRate: coinPriceList[1]["price"],
               ),
               CryptoCard(
-                cryptoCurrency: "LTC",
+                cryptoCurrency: cryptoList[2].keys.first,
                 selectedCurrency: selectedCurrency,
-                coinRate: litecoinRate,
+                coinRate: coinPriceList[2]["price"],
               ),
             ],
           ),

@@ -22,6 +22,10 @@ const List<String> currenciesList = [
   'ZAR',
 ];
 
-const List<String> cryptoList = ['BTC', 'ETH', 'LTC'];
+const List<Map<String, String>> cryptoList = [
+  {'BTC': "btc-bitcoin"},
+  {'ETH': 'eth-ethereum'},
+  {'LTC': 'ltc-litecoin'},
+];
 
-const coinAPIURL = 'https://api.coinpaprika.com/v1/tickers/';
+const coinAPIURL = 'https://api.coinpaprika.com/v1/tickers';
