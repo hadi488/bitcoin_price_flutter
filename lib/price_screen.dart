@@ -18,6 +18,12 @@ class _PriceScreenState extends State<PriceScreen> {
     {"id": "eth-ethereum", "price": 0.0},
     {"id": "ltc-litecoin", "price": 0.0},
   ];
+
+  void initState() {
+    super.initState();
+    updateCurrency(selectedCurrency);
+  }
+
   void updateCurrency(String selectedCurrencyName) {
     setState(() {
       selectedCurrency = selectedCurrencyName;
