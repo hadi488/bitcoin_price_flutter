@@ -35,6 +35,7 @@ class _PriceScreenState extends State<PriceScreen> {
           return {"id": coin['id'], "price": double.parse(coin['price'])};
         }).toList();
       });
+      print("coinPriceList: $coinPriceList");
     } catch (e) {
       print(e);
     }
