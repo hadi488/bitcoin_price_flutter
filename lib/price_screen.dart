@@ -27,6 +27,7 @@ class _PriceScreenState extends State<PriceScreen> {
 
   void getCoinData({required String selectedCur}) async {
     try {
+      //  list of maps with coin id and price
       List<Map<String, dynamic>> coinrates = await coindata.getCoinData(
         selectedCurr: selectedCur,
       );
